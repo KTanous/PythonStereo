@@ -1,11 +1,7 @@
 #!/usr/bin/env python
 
-# Author: Josh Yelon
-# Date: 7/11/2005
-#
-# See the associated manual page for an explanation.
-#
 from direct.showbase.ShowBase import ShowBase
+from panda3d.core import loadPrcFileData
 from panda3d.core import FrameBufferProperties, WindowProperties
 from panda3d.core import GraphicsPipe, GraphicsOutput
 from panda3d.core import Filename, Texture, Shader
@@ -22,6 +18,10 @@ from direct.actor.Actor import Actor
 import sys
 import os
 import random
+
+# set to stereo
+loadPrcFileData("",
+"""framebuffer-stereo 1""")
 
 # Function to put instructions on the screen.
 def addInstructions(pos, msg):
@@ -146,7 +146,7 @@ class FireflyDemo(ShowBase):
         # Miscellaneous stuff.
 
         self.disableMouse()
-        self.camera.setPos(-9.112, -100.077, 150)
+        self.camera.setPos(-9.112, -75.077, 150)
         self.camera.setHpr(0, -90, 2.4)
         random.seed()
 
@@ -319,8 +319,9 @@ class FireflyDemo(ShowBase):
         props.setRgbaBits(8, 8, 8, 8)
         props.setDepthBits(1)
         props.setAuxRgba(auxrgba)
+        props.setStereo(True)
         return self.graphicsEngine.makeOutput(
-            self.pipe, "model buffer", -2,
+            self.pipe, name, -2,
             props, winprops,
             GraphicsPipe.BFSizeTrackHost | GraphicsPipe.BFCanBindEvery |
             GraphicsPipe.BFRttCumulative | GraphicsPipe.BFRefuseWindow,
@@ -339,6 +340,7 @@ class FireflyDemo(ShowBase):
         color_b = min(color_g, random.uniform(0.5, 1.0))
         fly.setColor(color_r, color_g, color_b, 1.0)
         fly.setShaderInput("lightcolor", color_r, color_g, color_b, 1.0)
+        fly.setHpr(0,-90,0)
         int1 = fly.posInterval(random.uniform(7, 12), pos1, pos2)
         int2 = fly.posInterval(random.uniform(7, 12), pos2, pos1)
         si1 = fly.scaleInterval(random.uniform(0.8, 1.5),
