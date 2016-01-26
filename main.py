@@ -104,11 +104,11 @@ class FireflyDemo(ShowBase):
         self.plainMask = 4
 
         self.modelcam = self.makeCamera(self.modelbuffer,
-            lens=lens, scene=render, mask=self.modelMask)
+            lens=lens, stereo=True, scene=render, mask=self.modelMask)
         self.lightcam = self.makeCamera(self.lightbuffer,
-            lens=lens, scene=render, mask=self.lightMask)
+            lens=lens, stereo=True, scene=render, mask=self.lightMask)
         self.plaincam = self.makeCamera(self.lightbuffer,
-            lens=lens, scene=render, mask=self.plainMask)
+            lens=lens, stereo=True, scene=render, mask=self.plainMask)
 
         # Panda's main camera is not used.
 
@@ -319,7 +319,7 @@ class FireflyDemo(ShowBase):
         props.setRgbaBits(8, 8, 8, 8)
         props.setDepthBits(1)
         props.setAuxRgba(auxrgba)
-        props.setStereo(True)
+        #props.setStereo(True)
         return self.graphicsEngine.makeOutput(
             self.pipe, name, -2,
             props, winprops,
